@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Upload Marks";
+}
+
+<h2>Upload Marks</h2>
+
+<div>
+    <label>Exam:</label>
+    <select id="ExamDropdown" class="form-control" asp-items="ViewBag.Exams">
+        <option value="">Select Exam</option>
+    </select>
+</div>
+
+<div>
+    <label>Semester:</label>
+    <select id="SemesterDropdown" class="form-control">
+        <option value="">Select Semester</option>
+        @foreach (var s in ViewBag.Semesters as List<SelectListItem>)
+        {
+            <option value="@s.Value">@s.Text</option>
+        }
+    </select>
+</div>
+
+<div id="subject-container" style="margin-top:10px;">
+    <label>Subject:</label>
+    <select id="SubjectDropdown" class="form-control"></select>
+</div>
+
+<div id="students-container" style="margin-top:20px;"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('#SemesterDropdown').change(function() {
+                var semester = $(this).val();
+                if (!semester) return;
+
+                      $.getJSON('/Teacher/GetSubjects', { semester: semester })
+                        .done(function(data) {
+                            var $dropdown = $('#SubjectDropdown');
+                            $dropdown.empty().append('<option value="">Select Subject</option>');
+                            data.forEach(s => $dropdown.append(`<option value="${s.id}">${s.name}</option>`));
+                        })
+                        .fail(function() {
+                            alert('Failed to load subjects. Please try again.');
+                        });
+            });
+
+            $('#SubjectDropdown').change(function() {
+                var subjectId = $(this).val();
+                var examId = $('#ExamDropdown').val();
+                if (!subjectId || !examId) return;
+
+                $.get('/Teacher/GetStudentsForMarks', { subjectId, examId }, function (html) {
+                console.log("Received student table HTML:", html);
+                $('#students-container').html(html);
+                });
+
+            });
+
+        });
+    </script>
+}

@@ -68,15 +68,15 @@ namespace SessionalManagement.Models
 
             // Teachers
             modelBuilder.Entity<Teacher>().HasData(
-                new Teacher { Id = -4, Name = "AAM", Email = "faculty001@ddu.in", Password = "faculty001", Role = Role.Teacher },
-                new Teacher { Id = -5, Name = "SPS", Email = "faculty002@ddu.in", Password = "faculty002", Role = Role.Teacher }
+                new Teacher { Id = -4, Name = "AAM", Email = "faculty001@ddu.ac.in", Password = BCrypt.Net.BCrypt.HashPassword("faculty001"), Role = Role.Teacher },
+                new Teacher { Id = -5, Name = "SPS", Email = "faculty002@ddu.ac.in", Password = BCrypt.Net.BCrypt.HashPassword("faculty002"), Role = Role.Teacher }
             );
 
             // Students
             modelBuilder.Entity<Student>().HasData(
-                new Student { Id = -1, Name = "Mohit Gajjar", Email = "student001@ddu.in", Password = "student001", Role = Role.Student, Semester = Semester.V },
-                new Student { Id = -2, Name = "Kavan Dave", Email = "student002@ddu.in", Password = "student002", Role = Role.Student, Semester = Semester.V },
-                new Student { Id = -3, Name = "Vismay Chaudhari", Email = "student003@student.com", Password = "student003", Role = Role.Student, Semester = Semester.V }
+                new Student { Id = -1, Name = "Mohit Gajjar", Email = "student001@ddu.ac.in", Password = BCrypt.Net.BCrypt.HashPassword("student001"), Role = Role.Student, Semester = Semester.V },
+                new Student { Id = -2, Name = "Kavan Dave", Email = "student002@ddu.ac.in", Password = BCrypt.Net.BCrypt.HashPassword("stduent002"), Role = Role.Student, Semester = Semester.V },
+                new Student { Id = -3, Name = "Vismay Chaudhari", Email = "student003@ddu.ac.in", Password = BCrypt.Net.BCrypt.HashPassword("student003"), Role = Role.Student, Semester = Semester.V }
             );
 
             // Subjects

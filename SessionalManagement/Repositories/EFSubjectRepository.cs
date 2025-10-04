@@ -18,6 +18,7 @@ namespace SessionalManagement.Repositories
             {
                 return _context.Subjects
                     .Include(s => s.TeacherSubjects)
+                    .ThenInclude(ts => ts.Teacher)
                     .ToList();
             }
 
