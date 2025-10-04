@@ -17,7 +17,8 @@ namespace SessionalManagement.Repositories
         public IEnumerable<Student> GetAllStudents()
         {
             return _context.Students
-                .Include(s => s.Marks)    
+                .Include(s => s.Marks)
+                    .ThenInclude(m => m.Subject)
                 .ToList();
         }
 

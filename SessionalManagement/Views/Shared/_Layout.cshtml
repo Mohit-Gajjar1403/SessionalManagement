@@ -52,10 +52,16 @@
                             else if (role == "Admin")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Manage Student</a>
+                                    <a class="nav-link" asp-controller="Admin" asp-action="StudentDetails">Student Details</a>
                                 </li>
                                 <li>
-                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Manage Teacher</a>
+                                    <a class="nav-link" asp-controller="Admin" asp-action="Details">Teacher Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Add Teacher</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Add Subject</a>
                                 </li>
 							}
                         }

@@ -74,9 +74,9 @@ namespace SessionalManagement.Models
 
             // Students
             modelBuilder.Entity<Student>().HasData(
-                new Student { Id = -1, Name = "Mohit Gajjar", Email = "student001@ddu.in", Password = "student001", Role = Role.Student, Semester = Semester.I },
-                new Student { Id = -2, Name = "Kavan Dave", Email = "student002@ddu.in", Password = "student002", Role = Role.Student, Semester = Semester.II },
-                new Student { Id = -3, Name = "Vismay Chaudhari", Email = "student003@student.com", Password = "student003", Role = Role.Student, Semester = Semester.I }
+                new Student { Id = -1, Name = "Mohit Gajjar", Email = "student001@ddu.in", Password = "student001", Role = Role.Student, Semester = Semester.V },
+                new Student { Id = -2, Name = "Kavan Dave", Email = "student002@ddu.in", Password = "student002", Role = Role.Student, Semester = Semester.V },
+                new Student { Id = -3, Name = "Vismay Chaudhari", Email = "student003@student.com", Password = "student003", Role = Role.Student, Semester = Semester.V }
             );
 
             // Subjects

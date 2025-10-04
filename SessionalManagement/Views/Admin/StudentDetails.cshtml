@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SessionalManagement.Models.Student>
+@{
+    ViewData["Title"] = "Students";
+}
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-2">
+    @foreach (var s in Model ?? Enumerable.Empty<SessionalManagement.Models.Student>())
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="h6 mb-0">@s.Name</span>
+                    <a asp-action="EditStudent" asp-route-id="@s.Id" class="btn btn-sm btn-primary">Edit</a>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <strong>Email:</strong> @s.Email
+                    </div>
+
+                    <div class="mb-2">
+                        <strong>Marks:</strong>
+                        @if (s.Marks == null || !s.Marks.Any())
+                        {
+                            <span class="text-muted">No marks</span>
+                        }
+                        else
+                        {
+                            <ul class="mb-0">
+                                @foreach (var m in s.Marks)
+                                {
+                                    var subjectName = m.Subject?.Name ?? "(No subject)";
+                                    <li>@subjectName : @m.MarksObtained</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <div class="mb-0">
+                        <strong>Semester:</strong> @s.Semester
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
