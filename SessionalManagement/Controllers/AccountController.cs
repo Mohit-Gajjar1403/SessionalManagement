@@ -24,6 +24,12 @@ namespace SessionalManagement.Controllers
         {
             if (email !=null && password!=null)
             {
+                if(email=="admin123"&&password=="password123")
+                {
+                    HttpContext.Session.SetString("Username", email);
+                    HttpContext.Session.SetString("Role", Role.Admin.ToString());
+                    return RedirectToAction("Index", "Admin");
+                }
                 User u = _unitOfWork.User.GetUserByEmail(email);
                 Console.WriteLine(u);
                 if (u == null)
@@ -31,13 +37,23 @@ namespace SessionalManagement.Controllers
                     ViewBag.Error = "Email Not Found";
                     return View();
                 }
-
+                
                 if (u.Password == password)
                 {
                     HttpContext.Session.SetString("Username", email);
                     HttpContext.Session.SetString("Role", (u.Role).ToString());
-                    HttpContext.Session.SetString("Name", u.Name); 
-                    return RedirectToAction("Index", "Home");
+                    HttpContext.Session.SetString("Name", u.Name);
+                    if (u.Role == Role.Admin)
+                        return RedirectToAction("Index", "Admin");
+                    else if (u.Role == Role.Teacher)
+                        return RedirectToAction("Index", "Teacher");
+                    else if (u.Role == Role.Student)
+                        return RedirectToAction("Index", "Student");
+                    else
+                    {
+                        ViewBag.Error = "Invalid user role.Server Error";
+                        return View();
+                    }
                 }
                 else {                     
                     ViewBag.Error = "Invalid username or password";

@@ -49,6 +49,15 @@
                                     <a class="nav-link" asp-controller="Teacher" asp-action="ManageMarks">Manage Marks</a>
                                 </li>
                             }
+                            else if (role == "Admin")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Manage Student</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Manage Teacher</a>
+                                </li>
+							}
                         }
                     </ul>
 
