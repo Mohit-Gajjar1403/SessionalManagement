@@ -1,0 +1,29 @@
+﻿@model List<StudentMarksViewModel>
+
+<form method="post" action="/Teacher/UploadMarks">
+    <input type="hidden" name="examId" value="@ViewBag.ExamId" />
+    <input type="hidden" name="subjectId" value="@ViewBag.SubjectId" />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.StudentEmail</td>
+                    <td>@s.Name</td>
+                    <td><input type="number" name="[@Model.IndexOf(s)].Marks" value="@s.Marks" class="form-control" /></td>
+                    <input type="hidden" name="[@Model.IndexOf(s)].StudentId" value="@s.StudentId" />
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Upload Marks</button>
+</form>

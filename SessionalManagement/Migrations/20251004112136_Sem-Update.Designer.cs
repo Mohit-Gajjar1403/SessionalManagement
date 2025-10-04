@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SessionalManagement.Models;
 
 namespace SessionalManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004112136_Sem-Update")]
+    partial class SemUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,27 +270,27 @@ namespace SessionalManagement.Migrations
                         new
                         {
                             Id = -1,
-                            Email = "student001@ddu.ac.in",
+                            Email = "student001@ddu.in",
                             Name = "Mohit Gajjar",
-                            Password = "$2a$11$39BX7NFeiHK3vzp7r8zeveuQsu7OelWr1xCTNJC4GBmu/750fdmmC",
+                            Password = "student001",
                             Role = 0,
                             Semester = 5
                         },
                         new
                         {
                             Id = -2,
-                            Email = "student002@ddu.ac.in",
+                            Email = "student002@ddu.in",
                             Name = "Kavan Dave",
-                            Password = "$2a$11$VyDAIITwVcjhnXBR.dh17e5wCxO.IUR1v43XL2th.QOcCDtg3HlYu",
+                            Password = "student002",
                             Role = 0,
                             Semester = 5
                         },
                         new
                         {
                             Id = -3,
-                            Email = "student003@ddu.ac.in",
+                            Email = "student003@student.com",
                             Name = "Vismay Chaudhari",
-                            Password = "$2a$11$sgKN4ye39rPRDJ9TVW7QBOY5oD.JFwdenetAwW6bDx6Aic3y3TozO",
+                            Password = "student003",
                             Role = 0,
                             Semester = 5
                         });
@@ -304,17 +306,17 @@ namespace SessionalManagement.Migrations
                         new
                         {
                             Id = -4,
-                            Email = "faculty001@ddu.ac.in",
+                            Email = "faculty001@ddu.in",
                             Name = "AAM",
-                            Password = "$2a$11$C9c5sFlwU8pKhtzZAdHHGO5kVt/xka9gvOSfIcuOcB7r4FYs8M.4i",
+                            Password = "faculty001",
                             Role = 1
                         },
                         new
                         {
                             Id = -5,
-                            Email = "faculty002@ddu.ac.in",
+                            Email = "faculty002@ddu.in",
                             Name = "SPS",
-                            Password = "$2a$11$i9J3rHyBhSOYrLquvpLaie5/2fiMS40pCf18DNdjwK23kEj8OqGlG",
+                            Password = "faculty002",
                             Role = 1
                         });
                 });

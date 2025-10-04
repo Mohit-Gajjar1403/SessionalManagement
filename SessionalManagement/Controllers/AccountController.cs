@@ -38,7 +38,7 @@ namespace SessionalManagement.Controllers
                     return View();
                 }
                 
-                if (u.Password == password)
+                if (BCrypt.Net.BCrypt.Verify(password, u.Password))
                 {
                     HttpContext.Session.SetString("Username", email);
                     HttpContext.Session.SetString("Role", (u.Role).ToString());
