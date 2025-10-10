@@ -32,33 +32,44 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('#SemesterDropdown').change(function() {
+            $('#SemesterDropdown').change(function () {
                 var semester = $(this).val();
+
+                $('#students-container').empty();
+                $('#SubjectDropdown').empty().append('<option value="">Select Subject</option>');
+
                 if (!semester) return;
 
-                      $.getJSON('/Teacher/GetSubjects', { semester: semester })
-                        .done(function(data) {
-                            var $dropdown = $('#SubjectDropdown');
-                            $dropdown.empty().append('<option value="">Select Subject</option>');
-                            data.forEach(s => $dropdown.append(`<option value="${s.id}">${s.name}</option>`));
-                        })
-                        .fail(function() {
-                            alert('Failed to load subjects. Please try again.');
-                        });
+                $.getJSON('/Teacher/GetSubjects', { semester: semester })
+                    .done(function (data) {
+                        var $dropdown = $('#SubjectDropdown');
+                        $dropdown.empty().append('<option value="">Select Subject</option>');
+                        data.forEach(s => $dropdown.append(`<option value="${s.id}">${s.name}</option>`));
+                    })
+                    .fail(function () {
+                        alert('Failed to load subjects. Please try again.');
+                    });
             });
 
-            $('#SubjectDropdown').change(function() {
+            $('#ExamDropdown').change(function () {
+                $('#students-container').empty();
+            });
+
+            $('#SubjectDropdown').change(function () {
                 var subjectId = $(this).val();
                 var examId = $('#ExamDropdown').val();
-                if (!subjectId || !examId) return;
+
+                if (!subjectId || !examId) {
+                    $('#students-container').empty();
+                    return;
+                }
 
                 $.get('/Teacher/GetStudentsForMarks', { subjectId, examId }, function (html) {
-                console.log("Received student table HTML:", html);
-                $('#students-container').html(html);
+                    console.log("Received student table HTML:", html);
+                    $('#students-container').html(html);
                 });
-
             });
 
         });

@@ -20,42 +20,40 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-
                         @if (Context.Session.GetString("Username") != null)
                         {
                             var role = Context.Session.GetString("Role");
-
-                            @* Student links *@
+                            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                            <li class="nav-item">
+                                <a class="nav-link @(currentController == role && currentAction == "Index" ? "active" : "")" asp-controller = "@role.ToString()" asp-action="Index">Home</a>
+                            </li>
                             if (role == "Student")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Student" asp-action="Index">My Marks</a>
+                                    <a class="nav-link @(currentController == "Student" && currentAction == "MyMarks" ? "active" : "")" asp-controller="Student" asp-action="MyMarks">My Marks</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Student" asp-action="Chart">Performance Chart</a>
+                                    <a class="nav-link @(currentController == "Student" && currentAction == "MarksGraph" ? "active" : "")" asp-controller="Student" asp-action="MarksGraph">Performance Chart</a>
                                 </li>
                             }
 
-                            @* Teacher links *@
                             else if (role == "Teacher")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Teacher" asp-action="UploadMarks">Upload Marks</a>
+                                    <a class="nav-link @(currentController == "Teacher" && currentAction == "UploadMarks" ? "active" : "")" asp-controller="Teacher" asp-action="UploadMarks">Upload Marks</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Student" asp-action="Index">Manage Marks</a>
+                                    <a class="nav-link @(currentController == "Admin" && currentAction == "StudentDetails" ? "active" : "")" asp-controller="Admin" asp-action="StudentDetails"> Student Details</a>
                                 </li>
                             }
                             else if (role == "Admin")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Admin" asp-action="StudentDetails">Student Details</a>
+                                    <a class="nav-link @(currentController == "Admin" && currentAction== "StudentDetails" ? "active" : "")" asp-controller="Admin" asp-action="StudentDetails">Student Details</a>
                                 </li>
                                 <li>
-                                    <a class="nav-link" asp-controller="Admin" asp-action="Details">Teacher Details</a>
+                                    <a class="nav-link @(currentController == "Admin" && currentAction == "Details" ? "active" : "")" asp-controller="Admin" asp-action="Details">Teacher Details</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Add Teacher</a>
@@ -75,15 +73,6 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
                     </ul>

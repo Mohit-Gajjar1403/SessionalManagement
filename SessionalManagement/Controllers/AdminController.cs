@@ -59,10 +59,18 @@ namespace SessionalManagement.Controllers
             };
             return View(vm);
         }
-        public IActionResult StudentDetails()
+        public IActionResult StudentDetails(string searchQuery)
         {
             var s = unitOfWork.Marks.Student.GetAllStudents();
+
+            if(searchQuery != null)
+            {
+                searchQuery = searchQuery.ToLower();
+                s = s.Where(s => s.Name.ToLower().Contains(searchQuery) || s.Email.ToLower().Contains(searchQuery));
+            }
             return View(s);
         }
+
+        
     }
 }

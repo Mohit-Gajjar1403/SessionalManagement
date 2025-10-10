@@ -3,6 +3,13 @@
     ViewData["Title"] = "Students";
 }
 
+<form asp-controller="Admin" asp-action="StudentDetails" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="searchQuery" value="@Context.Request.Query["searchQuery"]"
+               class="form-control" placeholder="Search student by name or email..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-2">
     @foreach (var s in Model ?? Enumerable.Empty<SessionalManagement.Models.Student>())
     {
