@@ -1,0 +1,58 @@
+﻿@model SessionalManagement.Models.Teacher
+@{
+    ViewData["Title"] = "Add Teacher";
+    var subjects = ViewBag.Subjects as IEnumerable<dynamic>;
+}
+
+<h2>Add Teacher</h2>
+
+<form asp-action="AddTeacher" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <!-- Subjects Checkboxes -->
+    <div class="form-group">
+        <label>Assign Subjects</label><br />
+        @foreach (var subject in subjects)
+        {
+            <label>
+                <input type="checkbox"
+                       name="subjectIds"
+                       value="@subject.Value"
+                       @(subject.Selected ? "checked" : "") />
+                @subject.Text
+            </label>
+        
+            <br />
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Add Teacher</button>
+    <a asp-action="Details" class="btn btn-secondary">Back</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            // Using double quotes in JS and escaping single quotes in Razor might be better in complex strings
+            if('@ViewBag.ConsoleMessage' !== ''){
+                console.log('@ViewBag.ConsoleMessage');
+            }
+        </script>
+    }
+}

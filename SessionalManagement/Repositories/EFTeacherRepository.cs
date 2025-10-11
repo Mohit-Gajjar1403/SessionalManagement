@@ -76,5 +76,10 @@ namespace SessionalManagement.Repositories
                 _context.SaveChanges();
             }
         }
+        public int GetId()
+        {
+           int c = _context.Teachers.ToList().Count();
+            return c - 1;
+        }
     }
 }

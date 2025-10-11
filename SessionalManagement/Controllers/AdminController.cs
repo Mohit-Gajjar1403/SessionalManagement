@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using SessionalManagement.Models;
 using SessionalManagement.Repositories;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SessionalManagement.Controllers
@@ -20,12 +24,50 @@ namespace SessionalManagement.Controllers
         [HttpGet]
         public IActionResult AddTeacher()
         {
+            var Subjects = unitOfWork.TeacherDetails.Subject.GetAllSubjects();
+            ViewBag.Subjects = Subjects.Select(s=>new SelectListItem
+            {
+                Text=s.Name,
+                Value=s.Id.ToString()
+            }).ToList();
             return View();
         }
         [HttpPost]
-        public IActionResult AddTeacher(Teacher t)
+        public IActionResult AddTeacher(string Name,string Email,string Password,string[] subjectIds)
         {
-            unitOfWork.TeacherDetails.Teacher.Insert(t);
+            ViewBag.Subjects = unitOfWork.TeacherDetails.Subject.GetAllSubjects();
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine("correct model");
+                if(Password == "password123" && Email == "admin123")
+                {
+                    ViewBag.ConsoleMessage = "in admin of admin controller";
+                    ViewBag.Error = "Invalid Credentials";
+                    return View();
+                }
+                Teacher t  = new Teacher();
+                //t.Id = unitOfWork.TeacherDetails.Teacher.GetId();
+                t.Name = Name;
+                t.Email = Email;
+                t.Password = Password;
+                t.TeacherSubjects=new List<TeacherSubjects>();
+                if (subjectIds != null)
+                {
+                    foreach (var id in subjectIds)
+                    {
+                        if (int.TryParse(id, out int subjectId))
+                        {
+                            Console.WriteLine(subjectId);
+
+                            t.TeacherSubjects.Add(new TeacherSubjects { SubjectId = subjectId });
+                        }
+                    }
+                }
+                unitOfWork.TeacherDetails.Teacher.Insert(t);
+                unitOfWork.TeacherDetails.Save();
+                return RedirectToAction("Details");
+            }
+            ViewBag.ConsoleMessage = "Not redirected";
             return View();
         }
         [HttpGet]
@@ -33,7 +75,7 @@ namespace SessionalManagement.Controllers
         {
             return View();
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult EditTeacher(int id)
         {
             var teacher = unitOfWork.TeacherDetails.Teacher.GetTeacherById(id);
@@ -58,6 +100,20 @@ namespace SessionalManagement.Controllers
                 Subjects = unitOfWork.TeacherDetails.Subject.GetAllSubjects().ToList()
             };
             return View(vm);
+        }
+        [HttpGet]
+        public IActionResult AddStudent()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddStudent(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                unitOfWork.User.Insert(student);
+            }
+            return View();
         }
         public IActionResult StudentDetails()
         {

@@ -14,5 +14,6 @@ namespace SessionalManagement.Repositories
         public Teacher Update(Teacher Teacher);
 
         public void Delete(int id);
+        public int GetId();
     }
 }
