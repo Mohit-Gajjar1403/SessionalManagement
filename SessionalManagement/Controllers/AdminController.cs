@@ -19,6 +19,8 @@ namespace SessionalManagement.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Student = unitOfWork.Marks.Student.GetAllStudents().Count();
+            ViewBag.Teacher = unitOfWork.TeacherDetails.Teacher.GetAllTeachers().Count();
             return View();
         }
         [HttpGet]
@@ -75,13 +77,6 @@ namespace SessionalManagement.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult EditTeacher(int id)
-        {
-            var teacher = unitOfWork.TeacherDetails.Teacher.GetTeacherById(id);
-            if (teacher == null) return NotFound();
-            return View(teacher);
-        }
 
         [HttpPost]
         public IActionResult EditTeacher(Teacher t)
@@ -101,7 +96,46 @@ namespace SessionalManagement.Controllers
             };
             return View(vm);
         }
-<<<<<<< HEAD
+
+        [HttpGet]
+        public IActionResult AddSubject()
+        {
+            var teachers= unitOfWork.TeacherDetails.Teacher.GetAllTeachers();
+            ViewBag.Teachers = teachers.Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = t.Id.ToString()
+            }).ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddSubject(Subject subject, string[] teacherIds)
+        {
+            var teachers = unitOfWork.TeacherDetails.Teacher.GetAllTeachers();
+            ViewBag.Teachers = teachers.Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = t.Id.ToString()
+            }).ToList();
+            if (ModelState.IsValid)
+            {
+                subject.TeacherSubjects = new List<TeacherSubjects>();
+                if (teacherIds != null)
+                {
+                    foreach (var id in teacherIds)
+                    {
+                        if (int.TryParse(id, out int teacherId))
+                        {
+                            subject.TeacherSubjects.Add(new TeacherSubjects { TeacherId = teacherId });
+                        }
+                    }
+                }
+                unitOfWork.TeacherDetails.Subject.Insert(subject);
+                unitOfWork.TeacherDetails.Save();
+                return RedirectToAction("Details");
+            }
+            return View();
+        }
         [HttpGet]
         public IActionResult AddStudent()
         {
@@ -116,10 +150,7 @@ namespace SessionalManagement.Controllers
             }
             return View();
         }
-        public IActionResult StudentDetails()
-=======
         public IActionResult StudentDetails(string searchQuery)
->>>>>>> 0befa77974a55197b5037df1838f710d73417039
         {
             var s = unitOfWork.Marks.Student.GetAllStudents();
 

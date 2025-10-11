@@ -1,0 +1,61 @@
+﻿@model SessionalManagement.Models.Subject
+
+@{
+    ViewData["Title"] = "Add Subject"; 
+}
+
+<h2 class="text-center mb-4">Add New Subject</h2>
+
+<form asp-action="AddSubject" method="post" class="w-50 mx-auto p-4 border rounded shadow-sm bg-light">
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label fw-bold"></label>
+        <input asp-for="Name" class="form-control" placeholder="Enter subject name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Semester" class="form-label fw-bold"></label>
+        <select asp-for="Semester" class="form-select"
+                asp-items="Html.GetEnumSelectList<SessionalManagement.Models.Semester>()">
+            <option value="">-- Select Semester --</option>
+        </select>
+        <span asp-validation-for="Semester" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label fw-bold">Assign Teachers</label>
+        <div class="form-group">
+            <label>Assign Subjects</label><br />
+            @foreach (var teacher in ViewBag.Teachers as IEnumerable<dynamic>)
+            {
+                <label>
+                    <input type="checkbox"
+                           name="teacherIds"
+                           value="@teacher.Value"
+                           @(teacher.Selected ? "checked" : "") />
+                    @teacher.Text
+                </label>
+
+                <br />
+            }
+        </div>
+        <small class="form-text text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple teachers.</small>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary px-4">Save Subject</button>
+        <a asp-action="Details" class="btn btn-secondary px-4 ms-2">Cancel</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Using double quotes in JS and escaping single quotes in Razor might be better in complex strings
+        if('@ViewBag.ConsoleMessage' !== ''){
+            console.log('@ViewBag.ConsoleMessage');
+        }
+    </script>
+}

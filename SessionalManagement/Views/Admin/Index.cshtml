@@ -1,10 +1,31 @@
-﻿@using Microsoft.AspNetCore.Http
-@{
-    ViewData["Title"] = "Welcome to Sessional Management";
-    string name = @Context.Session.GetString("Name");
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    int studentCount = (int)ViewBag.Student;
+    int teacherCount = (int)ViewBag.Teacher;
 }
 
-<h2>Welcome to Sessional Management System- @name</h2>
-<p>
-    LETSS GOOO.
-</p>
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
+    <h2 class="mb-4 fw-bold text-center">Welcome to Sessional Management Dashboard</h2>
+
+    <div class="row text-center g-4 justify-content-center" style="width: 100%; max-width: 600px;">
+        <!-- Teacher Count -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-primary fw-semibold">Total Teachers</h5>
+                    <h1 class="display-4 text-primary fw-bold">@teacherCount</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Count -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
+                    <h5 class="card-title text-success fw-semibold">Total Students</h5>
+                    <h1 class="display-4 text-success fw-bold">@studentCount</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -56,10 +56,10 @@
                                     <a class="nav-link @(currentController == "Admin" && currentAction == "Details" ? "active" : "")" asp-controller="Admin" asp-action="Details">Teacher Details</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link @(currentController == "Admin" && currentAction == "Details" ? "active" : "")" asp-controller="Admin" asp-action="AddTeacher">Add Teacher</a>
+                                    <a class="nav-link @(currentController == "Admin" && currentAction == "AddTeacher" ? "active" : "")" asp-controller="Admin" asp-action="AddTeacher">Add Teacher</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Admin" asp-action="ManageUsers">Add Subject</a>
+                                    <a class="nav-link @(currentController == "Admin" && currentAction == "AddSubject" ? "active" : "")" asp-controller="Admin" asp-action="AddSubject" " asp-controller="Admin" asp-action="AddSubject">Add Subject</a>
                                 </li>
 							}
                         }
