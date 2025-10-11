@@ -1,0 +1,130 @@
+﻿@model SessionalManagement.Models.Student
+
+@{
+    ViewData["Title"] = "Student Profile";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .profile-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        padding: 2.5rem;
+        width: 420px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-card h2 {
+            margin-bottom: 0.4rem;
+            color: #2c3e50;
+        }
+
+        .profile-card p {
+            margin: 0.4rem 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .profile-card .label {
+            font-weight: bold;
+            color: #333;
+        }
+
+    .subjects {
+        margin-top: 1.5rem;
+        text-align: left;
+    }
+
+        .subjects h3 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 0.6rem;
+        }
+
+        .subjects ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .subjects li {
+            background: #f0f4f8;
+            margin: 0.3rem 0;
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+    .btn {
+        display: inline-block;
+        margin-top: 1.5rem;
+        background-color: #007bff;
+        color: white;
+        padding: 0.6rem 1.4rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="container">
+    <div class="profile-card">
+        <h2>@Model.Name</h2>
+        <p><span class="label">Email:</span> @Model.Email</p>
+        <p><span class="label">Semester:</span> @Model.Semester</p>
+
+        @if (Model.Marks != null && Model.Marks.Any())
+        {
+            var subjects = Model.Marks
+            .Where(m => m.Subject != null)
+            .Select(m => m.Subject.Name)
+            .Distinct()
+            .ToList();
+
+            if (subjects.Any())
+            {
+                <div class="subjects">
+                    <h3>Subjects:</h3>
+                    <ul>
+                        @foreach (var subjectName in subjects)
+                        {
+                            <li>@subjectName</li>
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <p>No subjects assigned yet.</p>
+            }
+        }
+        else
+        {
+            <p>No subjects assigned yet.</p>
+        }
+    </div>
+</div>
+

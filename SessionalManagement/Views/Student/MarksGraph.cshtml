@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Marks Graph";
+}
+
+<h2>Marks Distribution</h2>
+
+<div class="row mt-3 mb-3">
+    <div class="col-md-3">
+        <label>Exam:</label>
+        <select id="ExamDropdown" class="form-control" asp-items="ViewBag.Exams">
+            <option value="">Select Exam</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label>Subject:</label>
+        <select id="SubjectDropdown" class="form-control" asp-items="ViewBag.Subjects">
+            <option value="">Select Subject</option>
+        </select>
+    </div>
+</div>
+
+<div>
+    <canvas id="marksChart" height="250"></canvas>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var chart;
+
+                $('#ExamDropdown, #SubjectDropdown').change(function() {
+            var examId = $('#ExamDropdown').val();
+            var subjectId = $('#SubjectDropdown').val();
+
+            if (!examId || !subjectId) return;
+
+            $.getJSON('/Student/GetMarksData', { examId, subjectId }, function(res) {
+                console.log(res); // Debug
+                drawLineChart(res.data, res.studentMark, res.topStudents);
+            });
+        });
+
+        function drawLineChart(data, studentMark, topStudents) {
+            const labels = data.map(d => d.marks);
+            const counts = data.map(d => d.count);
+
+            const ctx = document.getElementById('marksChart').getContext('2d');
+
+            if(chart) chart.destroy();
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: counts,
+                        borderColor: 'rgba(54,162,235,0.8)',
+                        backgroundColor: 'rgba(54,162,235,0.2)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: labels.map(m => m === studentMark ? 'red' : 'blue'),
+                        pointRadius: labels.map(m => m === studentMark ? 6 : 4)
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { title: { display: true, text: 'Marks' }, min: 0, max: 36 },
+                        y: { beginAtZero: true, title: { display: true, text: 'Number of Students' } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    if(context.label == studentMark) return `You scored: ${context.label}`;
+                                    return `Marks ${context.label}: ${context.formattedValue} students`;
+                                },
+                                afterTitle: () => `Top scorer(s): ${topStudents.join(', ')}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}

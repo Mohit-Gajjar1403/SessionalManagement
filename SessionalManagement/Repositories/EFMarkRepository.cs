@@ -46,7 +46,6 @@ namespace SessionalManagement.Repositories
                 .Include(m => m.Student)
                 .Include(m => m.Subject)
                 .Include(m => m.Exam)
-                .AsNoTracking()
                 .FirstOrDefault(m => m.ExamId == exid && m.SubjectId == subid && m.StudentId == studid);
         }
         public IEnumerable<Marks> GetMarksByStudent(int studentId)

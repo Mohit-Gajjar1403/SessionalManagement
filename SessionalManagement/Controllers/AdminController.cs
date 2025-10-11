@@ -101,6 +101,7 @@ namespace SessionalManagement.Controllers
             };
             return View(vm);
         }
+<<<<<<< HEAD
         [HttpGet]
         public IActionResult AddStudent()
         {
@@ -116,9 +117,20 @@ namespace SessionalManagement.Controllers
             return View();
         }
         public IActionResult StudentDetails()
+=======
+        public IActionResult StudentDetails(string searchQuery)
+>>>>>>> 0befa77974a55197b5037df1838f710d73417039
         {
             var s = unitOfWork.Marks.Student.GetAllStudents();
+
+            if(searchQuery != null)
+            {
+                searchQuery = searchQuery.ToLower();
+                s = s.Where(s => s.Name.ToLower().Contains(searchQuery) || s.Email.ToLower().Contains(searchQuery));
+            }
             return View(s);
         }
+
+        
     }
 }

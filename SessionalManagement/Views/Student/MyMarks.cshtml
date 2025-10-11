@@ -1,0 +1,46 @@
+﻿@model SessionalManagement.Models.Student
+
+@{
+    var subjects = ViewBag.Subjects as List<SessionalManagement.Models.Subject>;
+    var exams = ViewBag.Exams as List<SessionalManagement.Models.Exam>;
+}
+
+<h2>@Model.Name's Marks</h2>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Semester:</strong> @Model.Semester</p>
+
+@if (subjects != null && subjects.Any() && exams != null && exams.Any())
+{
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-primary">
+            <tr>
+                <th>Subject</th>
+                @foreach (var exam in exams)
+                {
+                    <th>@exam.Name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subject in subjects)
+            {
+                <tr>
+                    <td>@subject.Name</td>
+                    @foreach (var exam in exams)
+                    {
+                        var mark = Model.Marks
+                        .FirstOrDefault(m => m.SubjectId == subject.Id && m.ExamId == exam.Id);
+
+                        <td>
+                            @(mark != null ? mark.MarksObtained.ToString() : "-")
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No marks recorded yet.</p>
+}

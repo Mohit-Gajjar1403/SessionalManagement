@@ -33,6 +33,9 @@ namespace SessionalManagement.Repositories
         {
             return _context.Students
                 .Include(s => s.Marks)
+                    .ThenInclude(m => m.Subject)
+                .Include(s => s.Marks)
+                    .ThenInclude(m => m.Exam)
                 .FirstOrDefault(s => s.Email == email);
         }
 
