@@ -71,26 +71,74 @@ namespace SessionalManagement.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult EditTeacher()
-        {
-            return View();
-        }
-        [HttpPost]
         public IActionResult EditTeacher(int id)
         {
             var teacher = unitOfWork.TeacherDetails.Teacher.GetTeacherById(id);
-            if (teacher == null) return NotFound();
+            var allSubjects = unitOfWork.TeacherDetails.Subject.GetAllSubjects();
+            List<SubjectItem> si = new List<SubjectItem>();
+            foreach(var sub in allSubjects)
+            {
+                si.Add(new SubjectItem
+                {
+                    subject = sub,
+                    IsSelected= teacher.TeacherSubjects.Any(ts => ts.SubjectId == sub.Id)
+                });
+            }
+            ViewBag.Subjects= si;
             return View(teacher);
         }
 
         [HttpPost]
-        public IActionResult EditTeacher(Teacher t)
+        public IActionResult EditTeacher(Teacher t, int[] SelectedSubjects)
         {
-            var teacher = unitOfWork.TeacherDetails.Teacher.GetTeacherById(t.Id);
-            var existingSubjects = teacher.TeacherSubjects.Select(x=> x.Subject).ToList();
-            var selectedSubjects = t.TeacherSubjects.ToList();
-            //var ToAdd = selectedSubjects.Except(existingSubjects).ToList();
-            return View(teacher);
+            if (!ModelState.IsValid)
+            {
+                var allSubjects = unitOfWork.TeacherDetails.Subject.GetAllSubjects();
+                List<SubjectItem> si = new List<SubjectItem>();
+
+                foreach (var sub in allSubjects)
+                {
+                    si.Add(new SubjectItem
+                    {
+                        subject = sub,
+                        IsSelected = t.TeacherSubjects != null && t.TeacherSubjects.Any(ts => ts.SubjectId == sub.Id)
+                    });
+                }
+                ViewBag.Subjects = si;
+                }
+            else 
+                {
+                var teacher = unitOfWork.TeacherDetails.Teacher.GetTeacherById(t.Id); 
+
+                var existingSubjectIds = teacher.TeacherSubjects.Select(ts => ts.SubjectId).ToList();
+
+                foreach (var sid in existingSubjectIds.Where(id => SelectedSubjects == null || !SelectedSubjects.Contains(id)).ToList())
+                {
+                    var ts = teacher.TeacherSubjects.First(x => x.SubjectId == sid);
+                    teacher.TeacherSubjects.Remove(ts);
+                }
+
+                if (SelectedSubjects != null)
+                {
+                    foreach (var sid in SelectedSubjects.Where(id => !existingSubjectIds.Contains(id)))
+                    {
+                        teacher.TeacherSubjects.Add(new TeacherSubjects
+                        {
+                            TeacherId = teacher.Id,
+                            SubjectId = sid
+                        });
+                    }
+                }
+
+                teacher.Name = t.Name;
+                teacher.Email = t.Email;
+                teacher.Password = t.Password;
+
+                unitOfWork.TeacherDetails.Teacher.Update(teacher);
+                unitOfWork.Save();
+                return RedirectToAction("Details");
+                }
+            return View(t);
         }
         public IActionResult Details()
         {
@@ -101,36 +149,22 @@ namespace SessionalManagement.Controllers
             };
             return View(vm);
         }
-<<<<<<< HEAD
-        [HttpGet]
-        public IActionResult AddStudent()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddStudent(Student student)
-        {
-            if (ModelState.IsValid)
-            {
-                unitOfWork.User.Insert(student);
-            }
-            return View();
-        }
-        public IActionResult StudentDetails()
-=======
         public IActionResult StudentDetails(string searchQuery)
->>>>>>> 0befa77974a55197b5037df1838f710d73417039
         {
             var s = unitOfWork.Marks.Student.GetAllStudents();
 
-            if(searchQuery != null)
+            if (searchQuery != null)
             {
                 searchQuery = searchQuery.ToLower();
                 s = s.Where(s => s.Name.ToLower().Contains(searchQuery) || s.Email.ToLower().Contains(searchQuery));
             }
             return View(s);
         }
-
-        
+        [HttpGet]
+        public IActionResult StudentDetails()
+        {
+            var s = unitOfWork.Marks.Student.GetAllStudents();
+            return View(s);
+        }
     }
 }
