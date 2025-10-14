@@ -19,6 +19,8 @@ namespace SessionalManagement.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Student = unitOfWork.Marks.Student.GetAllStudents().Count();
+            ViewBag.Teacher = unitOfWork.TeacherDetails.Teacher.GetAllTeachers().Count();
             return View();
         }
         [HttpGet]
@@ -149,6 +151,60 @@ namespace SessionalManagement.Controllers
             };
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult AddSubject()
+        {
+            var teachers= unitOfWork.TeacherDetails.Teacher.GetAllTeachers();
+            ViewBag.Teachers = teachers.Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = t.Id.ToString()
+            }).ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddSubject(Subject subject, string[] teacherIds)
+        {
+            var teachers = unitOfWork.TeacherDetails.Teacher.GetAllTeachers();
+            ViewBag.Teachers = teachers.Select(t => new SelectListItem
+            {
+                Text = t.Name,
+                Value = t.Id.ToString()
+            }).ToList();
+            if (ModelState.IsValid)
+            {
+                subject.TeacherSubjects = new List<TeacherSubjects>();
+                if (teacherIds != null)
+                {
+                    foreach (var id in teacherIds)
+                    {
+                        if (int.TryParse(id, out int teacherId))
+                        {
+                            subject.TeacherSubjects.Add(new TeacherSubjects { TeacherId = teacherId });
+                        }
+                    }
+                }
+                unitOfWork.TeacherDetails.Subject.Insert(subject);
+                unitOfWork.TeacherDetails.Save();
+                return RedirectToAction("Details");
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult AddStudent()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddStudent(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                unitOfWork.User.Insert(student);
+            }
+            return View();
+        }
         public IActionResult StudentDetails(string searchQuery)
         {
             var s = unitOfWork.Marks.Student.GetAllStudents();
@@ -160,11 +216,6 @@ namespace SessionalManagement.Controllers
             }
             return View(s);
         }
-        [HttpGet]
-        public IActionResult StudentDetails()
-        {
-            var s = unitOfWork.Marks.Student.GetAllStudents();
-            return View(s);
-        }
+       
     }
 }

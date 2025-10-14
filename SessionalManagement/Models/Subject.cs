@@ -12,7 +12,6 @@ namespace SessionalManagement.Models
         [Required]
         public Semester Semester { get; set; } // enum
 
-        [Required]
         public ICollection<TeacherSubjects> TeacherSubjects { get; set; } 
     }
 }
