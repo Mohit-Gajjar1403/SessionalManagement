@@ -1,69 +1,234 @@
-# **Sessional-Management**
+# 📊 Sessional Management System
 
-## **Project Overview**
+> A web-based academic management system built using **ASP.NET Core MVC** that streamlines sessional marks management, performance analysis, and academic administration through secure role-based access and interactive data visualization.
 
-Sessional Management is a web-based system designed to simplify academic evaluation and management. It allows teachers to upload and analyze students’ sessional marks, view class performance through graphical comparisons for students, and enables administrators to manage teachers, students, and subjects efficiently. The platform ensures transparency, easy accessibility, and insightful academic data visualization for institutes.
-
----
-
-## **Features Implemented**
-
-### Teacher Module
-
-- Upload and update sessional marks for students.
-- View the number of students under his/her subject.
-
-### Student Module
-
-- View personal sessional marks for all subjects.
-- Compare performance across different tests visually.
-
-### Admin Module
-
-- View total teacher and student counts.
-- Add new subjects and assign them to teachers.
-- Manage teacher and student details (view, edit, and delete).
+<p align="center">
+  <img src="https://img.shields.io/badge/ASP.NET%20Core-MVC-512BD4?logo=.net" />
+  <img src="https://img.shields.io/badge/C%23-Language-239120?logo=c-sharp" />
+  <img src="https://img.shields.io/badge/SQL%20Server-Database-CC2927?logo=microsoftsqlserver" />
+  <img src="https://img.shields.io/badge/Entity%20Framework-Core-512BD4" />
+</p>
 
 ---
 
-## **Additional Features**
+# 📌 Overview
 
-- Secure authentication and role-based access control.
-- Responsive and user-friendly dashboard interface.
-- Data-driven graphical visualizations (charts and analytics).
+The **Sessional Management System** is a web application designed to simplify academic evaluation by allowing teachers to manage sessional marks, students to monitor their academic performance, and administrators to efficiently manage teachers, students, and subjects through dedicated dashboards.
 
 ---
 
-## **Setup Instructions (How to Run)**
+# 🎥 Project Demonstration
 
-### Prerequisites
+📺 **Watch the complete project demonstration here**
 
-- ASP.NET SDK
-- Visual Studio / VS Code
-- Git installed for version control
+> **Demo Video:** https://docs.google.com/videos/d/1jpxCd3qK-r4ZAy5iUg20XivTB0dnOrroW11pvI4U_78/edit?usp=drive_link
 
-### Steps
-1. **Clone the Repository**
-git clone ```https://github.com/Mohit-Gajjar1403/SessionalManagement.git```
-cd sessional-management
+---
 
-2. **Install Dependencies**
+# ✨ Features
+
+## 👨‍💼 Administrator
+
+- View institute dashboard
+- Manage teachers
+- Manage students
+- Add and assign subjects
+- View teacher and student statistics
+
+### 👨‍🏫 Teacher
+
+- Upload sessional marks
+- Update student marks
+- View assigned students
+- Manage marks session-wise
+
+### 👨‍🎓 Student
+
+- View sessional marks
+- Compare performance across different tests
+- Interactive graphical performance analysis
+- Track academic progress
+
+### 🔐 Security
+
+- Secure Authentication
+- Role-Based Authorization
+- Protected Routes
+- Session Management
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technologies |
+|-----------|--------------|
+| Framework | ASP.NET Core MVC |
+| Language | C# |
+| Database | SQL Server |
+| ORM | Entity Framework Core |
+| Frontend | HTML, CSS, Bootstrap, Razor Views |
+| Charts | Chart.js |
+| Architecture | MVC, Repository Pattern, Unit of Work |
+
+---
+
+# 🏗 System Architecture
+
+```
+          Users
+             │
+             ▼
+     ASP.NET MVC Application
+             │
+ ┌───────────┼───────────┐
+ │           │           │
+Admin     Teacher     Student
+ │           │           │
+ └───────────┼───────────┘
+             │
+ Repository & Unit of Work
+             │
+     Entity Framework Core
+             │
+        SQL Server Database
+```
+
+---
+
+# 📂 Project Structure
+
+```
+Sessional-Management
+│
+├── Controllers/
+├── Models/
+├── ViewModels/
+├── Views/
+├── Repositories/
+├── wwwroot/
+├── appsettings.json
+├── Program.cs
+├── README.md
+└── .gitignore
+```
+
+---
+
+# ⚙ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Mohit-Gajjar1403/SessionalManagement.git
+
+cd SessionalManagement
+```
+
+---
+
+## Restore Dependencies
+
+```bash
 dotnet restore
-
-
-3. **Update the connection string** in `appsettings.json` (ASP.NET)
-
-4. **Run Migrations**
-dotnet ef database update
-
-5. **Start the Application**
-dotnet run
-
+```
 
 ---
 
-## **Team Members and Individual Contributions**
+## Configure Database
 
-- **CE025**: Implemented Admin Controller, AccountController; handled logic for adding teachers and subjects, viewing teacher and student counts and their details, and built corresponding razor views. Also created various ViewModels and core models.
+Update the SQL Server connection string inside:
 
-- **CE027**: Implemented TeacherController and StudentController; handled logic for uploading student marks sessional-wise and created charts for students to view their marks graphically. Teacher can edit student marks sessional-wise. Created various many-to-many models and the repositories including unitOfWork.
+```
+appsettings.json
+```
+
+---
+
+## Apply Database Migrations
+
+```bash
+dotnet ef database update
+```
+
+---
+
+## Run the Project
+
+```bash
+dotnet run
+```
+
+The application will start on the configured local server.
+
+---
+
+# 📊 Core Modules
+
+- Authentication
+- Student Management
+- Teacher Management
+- Subject Management
+- Sessional Marks Management
+- Performance Analytics
+- Admin Dashboard
+
+---
+
+# 🚀 Future Enhancements
+
+- [ ] Attendance Management
+- [ ] PDF Report Generation
+- [ ] Email Notifications
+- [ ] Student Performance Prediction
+- [ ] Mobile Responsive UI
+- [ ] Advanced Analytics Dashboard
+
+---
+
+# 📚 Learning Outcomes
+
+Through this project, I gained practical experience in:
+
+- ASP.NET Core MVC
+- Entity Framework Core
+- SQL Server
+- MVC Architecture
+- Repository Pattern
+- Unit of Work Pattern
+- Authentication & Authorization
+- CRUD Operations
+- Data Visualization
+- Role-Based Access Control
+
+---
+
+# 👥 Team Contributions
+
+## **Kavan Dave**
+
+- Developed the **Teacher Module**
+- Developed the **Student Module**
+- Implemented sessional marks upload and update functionality
+- Developed graphical performance analysis using Chart.js
+- Designed many-to-many database relationships
+- Implemented Repository Pattern and Unit of Work
+
+---
+
+## **Mohit Gajjar**
+
+- Developed the **Admin Module**
+- Implemented Authentication & Account Management
+- Developed teacher and subject management
+- Created admin dashboards and Razor Views
+- Designed core models and ViewModels
+
+---
+
+# 📄 License
+
+This project was developed for educational and learning purposes.
+
+---
+
+⭐ If you found this project helpful, consider giving it a star!
